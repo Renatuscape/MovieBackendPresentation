@@ -5,5 +5,5 @@ public class Movie {
 	public string Title { get; set; } = string.Empty;
 	public string Genre { get; set; } = string.Empty;
     public string ImgUrl { get; set; } = string.Empty;
-    public ICollection<UserMovie>? UserMovie { get; set; }
+    public ICollection<Favourite>? Favourites { get; set; }
 }

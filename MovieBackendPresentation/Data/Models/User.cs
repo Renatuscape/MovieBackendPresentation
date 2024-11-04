@@ -7,6 +7,6 @@
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public string Salt { get; set; } = string.Empty;
-        public ICollection<UserMovie>? UserMovie { get; set; }
+        public ICollection<Favourite>? Favourites { get; set; }
     }
 }
