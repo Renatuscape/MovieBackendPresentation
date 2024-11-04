@@ -9,5 +9,6 @@ namespace MovieBackendPresentation.Data
 
         public DbSet<User> User { get; set; } = default!;
         public DbSet<Movie> Movie { get; set; } = default!;
+        public DbSet<UserMovie> UserMovie { get; set; } = default!;
     }
 }
