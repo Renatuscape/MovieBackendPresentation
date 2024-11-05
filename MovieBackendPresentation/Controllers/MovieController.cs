@@ -63,8 +63,8 @@ public class MovieController : ControllerBase
             new()
             {
                 Title = "Bram Stoker's Dracula",
-                Genre = "https://upload.wikimedia.org/wikipedia/en/a/a0/Bram_Stoker%27s_Dracula_%281992_film%29.jpg",
-                ImgUrl = "horror",
+                Genre = "horror",
+                ImgUrl = "https://upload.wikimedia.org/wikipedia/en/a/a0/Bram_Stoker%27s_Dracula_%281992_film%29.jpg",
             },
             new()
             {
