@@ -17,7 +17,7 @@ public class UserController : ControllerBase {
 		_context = context;
 	}
 
-	[HttpGet("{id}")]
+	[HttpGet("{id:int}")]
 	public async Task<ActionResult> GetUser(int id) {
 		var user = await _context.User.FindAsync(id);
 		if (user == null) {
@@ -43,6 +43,31 @@ public class UserController : ControllerBase {
 			Username = user.Username
 		};
 		_context.User.Add(newUser);
+		await _context.SaveChangesAsync();
+		return NoContent();
+	}
+
+	[HttpDelete("{id:int}")]
+	public async Task<ActionResult> DeleteUser(int id) {
+		var user = await _context.User.FindAsync(id);
+		if (user == null) {
+			return NotFound();
+		}
+		_context.User.Remove(user);
+		await _context.SaveChangesAsync();
+		return NoContent();
+	}
+
+	[HttpPut("{id:int}")]
+	public async Task<ActionResult> UpdateUser(int id, CreateUser user) {
+		var userToUpdate = await _context.User.FindAsync(id);
+		if (userToUpdate == null) {
+			return NotFound();
+		}
+		
+		userToUpdate.Username = user.Username;
+		userToUpdate.Email    = user.Email;
+		userToUpdate.Password = PasswordHasher.HashPassword(user.Password + userToUpdate.Salt);
 		await _context.SaveChangesAsync();
 		return NoContent();
 	}
