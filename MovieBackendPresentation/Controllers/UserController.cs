@@ -11,15 +11,15 @@ namespace MovieBackendPresentation.Controllers;
 [Route("[Controller]")]
 [ApiController]
 public class UserController : ControllerBase {
-	private readonly MovieBackendDbContext _context;
+	private readonly MovieBackendDbContext _database;
 
 	public UserController(MovieBackendDbContext context) {
-		_context = context;
+		_database = context;
 	}
 
 	[HttpGet("{id:int}")]
 	public async Task<ActionResult> GetUser(int id) {
-		var user = await _context.User.FindAsync(id);
+		var user = await _database.User.FindAsync(id);
 		if (user == null) {
 			return NotFound();
 		}
@@ -28,7 +28,7 @@ public class UserController : ControllerBase {
 
 	[HttpGet]
 	public async Task<ActionResult> GetUsers() {
-		var user = await _context.User.ToListAsync();
+		var user = await _database.User.ToListAsync();
 		return Ok(user);
 	}
 
@@ -42,25 +42,25 @@ public class UserController : ControllerBase {
 			Salt     = salt,
 			Username = user.Username
 		};
-		_context.User.Add(newUser);
-		await _context.SaveChangesAsync();
+		_database.User.Add(newUser);
+		await _database.SaveChangesAsync();
 		return NoContent();
 	}
 
 	[HttpDelete("{id:int}")]
 	public async Task<ActionResult> DeleteUser(int id) {
-		var user = await _context.User.FindAsync(id);
+		var user = await _database.User.FindAsync(id);
 		if (user == null) {
 			return NotFound();
 		}
-		_context.User.Remove(user);
-		await _context.SaveChangesAsync();
+		_database.User.Remove(user);
+		await _database.SaveChangesAsync();
 		return NoContent();
 	}
 
 	[HttpPut("{id:int}")]
 	public async Task<ActionResult> UpdateUser(int id, CreateUser user) {
-		var userToUpdate = await _context.User.FindAsync(id);
+		var userToUpdate = await _database.User.FindAsync(id);
 		if (userToUpdate == null) {
 			return NotFound();
 		}
@@ -68,7 +68,7 @@ public class UserController : ControllerBase {
 		userToUpdate.Username = user.Username;
 		userToUpdate.Email    = user.Email;
 		userToUpdate.Password = PasswordHasher.HashPassword(user.Password + userToUpdate.Salt);
-		await _context.SaveChangesAsync();
+		await _database.SaveChangesAsync();
 		return NoContent();
 	}
 }

@@ -10,27 +10,27 @@ namespace MovieBackendPresentation.Controllers;
 [Route("[Controller]")]
 [ApiController]
 public class FavouriteController : ControllerBase {
-	private readonly MovieBackendDbContext _context;
+	private readonly MovieBackendDbContext _database;
 
 	public FavouriteController(MovieBackendDbContext context) {
-		_context = context;
+		_database = context;
 	}
 
 	[HttpGet]
 	public async Task<ActionResult> GetFavourites() {
-		var favourites = await _context.Favourites.ToListAsync();
+		var favourites = await _database.Favourites.ToListAsync();
 		return Ok(favourites);
 	}
 
 	[HttpGet("{id:int}")]
 	public async Task<ActionResult> GetFavourite(int id) {
-		var favourite = await _context.Favourites.FindAsync(id);
+		var favourite = await _database.Favourites.FindAsync(id);
 		return Ok(favourite);
 	}
 
 	[HttpGet("{id:int}/user")]
 	public async Task<ActionResult> GetUserFavourite(int id) {
-		var favourite = await _context.Favourites.Where(c => c.UserId == id).ToListAsync();
+		var favourite = await _database.Favourites.Where(c => c.UserId == id).ToListAsync();
 		return Ok(favourite);
 	}
 
@@ -41,8 +41,8 @@ public class FavouriteController : ControllerBase {
 			UserId  = favourite.UserId
 		};
 
-		await _context.AddAsync(newFavourite);
-		await _context.SaveChangesAsync();
+		await _database.AddAsync(newFavourite);
+		await _database.SaveChangesAsync();
 		
 		return Ok();
 	}

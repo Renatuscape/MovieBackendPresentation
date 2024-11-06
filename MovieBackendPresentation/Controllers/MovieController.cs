@@ -7,17 +7,17 @@ using MovieBackendPresentation.Data.Models;
 [ApiController]
 public class MovieController : ControllerBase
 {
-    private readonly MovieBackendDbContext _context;
+    private readonly MovieBackendDbContext _database;
 
     public MovieController(MovieBackendDbContext context)
     {
-        _context = context;
+        _database = context;
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult> GetMovie(int id)
     {
-        var movie = await _context.Movie.FindAsync(id);
+        var movie = await _database.Movie.FindAsync(id);
         if (movie == null)
         {
             return NotFound();
@@ -28,14 +28,14 @@ public class MovieController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetMovies()
     {
-        var movies = await _context.Movie.ToListAsync();
+        var movies = await _database.Movie.ToListAsync();
         return Ok(movies);
     }
 
     [HttpPost]
     public async Task<ActionResult> CreateDummyData()
     {
-        if (_context.Movie != null && _context.Movie.Count() > 0)
+        if (_database.Movie != null && _database.Movie.Count() > 0)
         {
             return BadRequest("Movies already exist.");
         }
@@ -106,11 +106,11 @@ public class MovieController : ControllerBase
 
         foreach (var movie in movies)
         {
-            _context.Movie.Add(movie);
+            _database.Movie.Add(movie);
         }
         
 
-        await _context.SaveChangesAsync();
+        await _database.SaveChangesAsync();
         return Ok();
     }
 }
