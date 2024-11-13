@@ -19,5 +19,4 @@ public class PasswordHasher {
 		}
 		return Convert.ToBase64String(salt);
 	}
-
 }
